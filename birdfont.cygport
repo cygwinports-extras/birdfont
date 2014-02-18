@@ -1,0 +1,27 @@
+inherit python
+
+NAME="birdfont"
+VERSION=0.34
+RELEASE=1
+CATEGORY="Graphics"
+SUMMARY="Font editor"
+DESCRIPTION="BirdFont is a free font editor that lets you create vector
+graphics and export TTF, EOT, and SVG fonts."
+HOMEPAGE="http://birdfont.org/"
+SRC_URI="http://birdfont.org/releases/birdfont-${VERSION}.tar.gz"
+PATCH_URI="0.34-cygwin.patch"
+
+DIFF_EXCLUDES="build libbirdfont.vapi Config.vala config.py"
+
+REQUIRES="unicode-ucd"
+
+src_compile() {
+	cd ${S}
+	./configure --prefix=/usr --cc=${CC}
+	./scripts/linux_build.py --prefix=/usr --cc=${CC} --cflags="${CFLAGS}"
+}
+
+src_install() {
+	cd ${S}
+	./install.py --dest=${D}
+}

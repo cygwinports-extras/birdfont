@@ -1,0 +1,24 @@
+--- origsrc/birdfont-0.34/install.py	2014-02-14 10:35:54.000000000 -0600
++++ src/birdfont-0.34/install.py	2014-02-18 12:02:56.395149700 -0600
+@@ -99,6 +99,8 @@ elif os.path.isfile ('build/bin/libbirdf
+ 	install ('build/bin/libbirdfont.' + version.SO_VERSION + '.dylib', libdir, 644)
+ 	link (libdir, 'libbirdfont.' + version.SO_VERSION + '.dylib', ' libbirdfont.dylib.' + version.SO_VERSION_MAJOR)
+ 	link (libdir, 'libbirdfont.' + version.SO_VERSION + '.dylib', ' libbirdfont.dylib')
++elif os.path.isfile ('build/bin/cygbirdfont-' + version.SO_VERSION + '.dll'):
++	install ('build/bin/cygbirdfont-' + version.SO_VERSION + '.dll', '/bin', 755)
+ else:
+ 	print ("Can not find libbirdfont.")
+ 	exit (1)
+--- origsrc/birdfont-0.34/scripts/linux_build.py	2014-02-14 10:35:55.000000000 -0600
++++ src/birdfont-0.34/scripts/linux_build.py	2014-02-18 14:14:05.704280100 -0600
+@@ -48,8 +48,8 @@ cc = options.cc
+ cflags = options.cflags
+ ldflags = options.ldflags
+ library_cflags = options.cflags
+-library_ldflags= options.ldflags + " -Wl,-soname," + "libbirdfont.so." + version.SO_VERSION
+-library = "libbirdfont.so." + version.SO_VERSION
++library_ldflags= options.ldflags + " -shared -Wl,--out-implib,build/bin/libbirdfont.dll.a"
++library = "cygbirdfont-" + version.SO_VERSION + ".dll"
+ 
+ configfile.write_config (prefix)
+ compile_translations()
